@@ -57,3 +57,31 @@ print.hpmods <- function(x, ...) {
     print(as(x$models, "sparseMatrix"))
     invisible(x)
 }
+
+##' Extract model subsets from an hpmods object
+##'
+##' After fitting a model with several terms the residual sums of
+##' squares (and the coefficient estimates, if needed) for any leading
+##' subset of those terms can be determined directly.  This function
+##' extracts distinct subsets of the rank-preserving models that can
+##' where each subset can be analyzed from a single model fit.
+##' @title Extract model subsets
+##' @param x an object of class \code{"hpmods"}
+##' @param \dots optional, additional arguments.  At present, none are used.
+##' @return a list of model subsets
+##' @author Douglas Bates
+msubs <- function(x, ...) {
+    stopifnot(class(x) == "hpmods")
+    mm  <- x$models
+    ans <- vector(mode="list", length=nrow(mm)-ncol(mm))
+    i   <- 1L
+    p2  <- 2^(0:(ncol(mm)-1))
+    while (nrow(mm) > 0) {
+        cr <- as.character(cumsum(p2[mm[nrow(mm),]]))
+        if (i == 1L) cr <- c("0", cr)   # null model goes in first group
+        ans[[i]] <- mm[intersect(rownames(mm), cr),,drop=FALSE]
+        i <- i + 1L
+        mm <- mm[setdiff(rownames(mm), cr),,drop=FALSE]
+    }
+    ans[!sapply(ans, is.null)]
+}
