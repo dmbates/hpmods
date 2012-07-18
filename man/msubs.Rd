@@ -25,6 +25,9 @@
   subset can be analyzed from a single model fit.
 }
 \author{
-  Douglas Bates
+  Douglas Bates ##' set.seed(12321) fr <- data.frame(y =
+  rnorm(900), x1 = rnorm(900), x2 = rnorm(900), x3 =
+  gl(3,10,900), x4 = gl(10,3,900)) msubs(hpmods(y ~ (x1 +
+  x2 + x3 + x4)^4, fr))
 }
 

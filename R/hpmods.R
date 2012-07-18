@@ -24,7 +24,7 @@ NA
 ##' set.seed(12321)
 ##' fr <- data.frame(y = rnorm(900), x1 = rnorm(900), x2 = rnorm(900),
 ##'                  x3 = gl(3,10,900), x4 = gl(10,3,900))
-##' hpmods(y ~ (x1 + x2 + x3 + x4)^4, fr)
+##' (hpm <- hpmods(y ~ (x1 + x2 + x3 + x4)^4, fr))
 ##' @export
 hpmods <- function(formula, data, subset, weights, na.action, offset, ...) {
     cl   <- match.call()
@@ -70,6 +70,11 @@ print.hpmods <- function(x, ...) {
 ##' @param \dots optional, additional arguments.  At present, none are used.
 ##' @return a list of model subsets
 ##' @author Douglas Bates
+##' ##' set.seed(12321)
+##' fr <- data.frame(y = rnorm(900), x1 = rnorm(900), x2 = rnorm(900),
+##'                  x3 = gl(3,10,900), x4 = gl(10,3,900))
+##' msubs(hpmods(y ~ (x1 + x2 + x3 + x4)^4, fr))
+##' @export
 msubs <- function(x, ...) {
     stopifnot(class(x) == "hpmods")
     mm  <- x$models

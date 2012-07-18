@@ -1,2 +1,3 @@
 S3method(print,hpmods)
 export(hpmods)
+export(msubs)
